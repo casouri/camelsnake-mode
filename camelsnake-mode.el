@@ -35,9 +35,6 @@ This function takes no argument, return t to allow modification, return nil othe
 
 Mind that this function is called in `post-self-insert-hook', so don't put heavy stuff in it.")
 
-(defvar-local camelsnake--enable-locally nil
-  "Don't set this manually, configured by `camelsnake-configure-on-major-mode'.")
-
 ;;
 ;; Entry
 ;;
@@ -46,11 +43,8 @@ Mind that this function is called in `post-self-insert-hook', so don't put heavy
   "Insert snake case with camel case key stroke."
   :global t
   (if camelsnake-mode
-      (progn
-        (add-hook 'post-self-insert-hook #'camelsnake-modify-insert)
-        (add-hook 'after-change-major-mode-hook #'camelsnake-modify-insert))
-    (remove-hook 'post-self-insert-hook #'camelsnake-modify-insert)
-    (remove-hook 'after-change-major-mode-hook #'camelsnake-modify-insert)))
+      (add-hook 'after-change-major-mode-hook #'camelsnake-configure-on-major-mode)
+    (remove-hook 'after-change-major-mode-hook #'camelsnake-configure-on-major-mode)))
 
 ;;
 ;; Main logic
@@ -62,8 +56,7 @@ Mind that this function is called in `post-self-insert-hook', so don't put heavy
         (before-inserted (char-before (1- (point)))))
     ;; if the char just inserted is a Captical _and_
     ;; the one before it is not, insert the delimiter.
-    (when (and camelsnake--enable-locally
-               (member just-inserted camelsnake-char-list)
+    (when (and (member just-inserted camelsnake-char-list)
                (member before-inserted camelsnake-char-before-list)
                (if camelsnake-disable-judge
                    (funcall camelsnake-disable-judge)
@@ -83,7 +76,9 @@ Mind that this function is called in `post-self-insert-hook', so don't put heavy
          (delimiter (alist-get 'delimiter spec-alist))
          (on (alist-get 'on spec-alist))
          (judge (alist-get 'judge spec-alist)))
-    (setq camelsnake--enable-locally on)
+    (if on
+        (add-hook 'post-self-insert-hook #'camelsnake-modify-insert nil t)
+      (remove-hook 'post-self-insert-hook #'camelsnake-modify-insert t))
     (when char-list (setq camelsnake-char-list char-list))
     (when char-before-list (setq camelsnake-char-before-list char-before-list))
     (when delimiter (setq camelsnake-delimiter delimiter))
