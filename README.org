@@ -1,0 +1,46 @@
+#+TITLE: camelsnake-mode
+
+This minor mode turns your typing of CamelCase into snake_case or listp-case or else.
+
+When you enable it, type "anVariable" results in "an_variable" or "an-variable".
+
+You can customize the delimiter and add your rules of when to modify the input and when to not.
+
+Demonstration:
+
+[[demo.fig][demo.gif]]
+
+
+Full customization list:
+
+#+BEGIN_SRC emacs-lisp
+(defvar camelsnake-mode-spec-alist ()
+  "Lists special sepcifications for specific major modes.
+Takes the form of:
+\(major-mode . \(\(char-list . list\)
+               \(char-before-list . list\)
+               \(delimiter . char\)
+               \(judge . function\)\)\)
+char-list sets `camelsnake-char-list',
+char-before-list sets `camelsnake-char-before-list',
+delimiter sets `camelsnake-delimiter',
+judge sets `camelsnake-disable-judge'.")
+
+(defvar camelsnake-char-list '(?A ?B ?C ?D ?E ?F ?G ?H ?I ?J ?K ?L ?M ?N ?O ?P ?Q ?R ?S ?T ?U ?V ?W ?X ?Y ?Z)
+  "Characters that camelsnake will modify.")
+
+(defvar camelsnake-char-before-list '(?a ?b ?c ?d ?e ?f ?g ?h ?i ?j ?k ?l ?m ?n ?o ?p ?q ?r ?s ?t ?u ?v ?w ?x ?y ?z)
+  "Characters before the just inserted character that will make camelsnake modify input.")
+
+(defvar camelsnake-delimiter ?-
+  "The default delimiter.")
+
+(defvar camelsnake-disable-judge nil
+  "The user defined function that decides if camelsnake should modify character.
+This function is called when user just typed the critical character, e.g.
+\"camcelC|\" \(\"|\" is the point\).
+
+This function takes no argument, return t to allow modification, return nil otherwise.
+
+Mind that this function is called in `post-self-insert-hook', so don't put heavy stuff in it.")
+#+END_SRC
