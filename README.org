@@ -1,6 +1,6 @@
 #+TITLE: camelsnake-mode
 
-This minor mode turns your typing of CamelCase into snake_case or listp-case or else.
+This minor mode turns your typing of camelCase into snake_case or listp-case or else.
 
 When you enable it, type "anVariable" results in "an_variable" or "an-variable".
 
