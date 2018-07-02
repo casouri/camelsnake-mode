@@ -10,6 +10,19 @@ Demonstration:
 
 [[demo.fig][demo.gif]]
 
+* Usage
+
+You need to configure =camelsnake-mode= because it is disabled for all modes by default.
+
+#+BEGIN_SRC emacs-list
+(setq camelsnake-mode-spec-alist '((python-mode . ((delimiter . ?_)
+                                                   (judge . camelsnake-python-judge)
+                                                   (on . t)))
+                                   (emacs-lisp-mode . ((delimiter . ?-)
+                                                       (on . t)))))
+(camelsnake-mode)
+#+END_SRC
+
 
 Full customization list:
 
