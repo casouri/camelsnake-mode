@@ -12,14 +12,17 @@ Demonstration:
 
 * Usage
 
-You need to configure =camelsnake-mode= because it is disabled for all modes by default.
+You need to configure =camelsnake-mode= because camelsnake-mode doesn't do anything 
+by default unless you enable it for each major mode.
 
-#+BEGIN_SRC emacs-list
+#+BEGIN_SRC emacs-lisp
+;; explaination see below
 (setq camelsnake-mode-spec-alist '((python-mode . ((delimiter . ?_)
                                                    (judge . camelsnake-python-judge)
                                                    (on . t)))
                                    (emacs-lisp-mode . ((delimiter . ?-)
                                                        (on . t)))))
+;; enable minor mode
 (camelsnake-mode)
 #+END_SRC
 
