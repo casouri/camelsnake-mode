@@ -96,7 +96,7 @@ Mind that this function is called in `post-self-insert-hook', so don't put heavy
 
 (defun camelsnake-python-judge ()
   "Judge function for camelsnake in Python."
-  (if (eq (what-line) camelsnake-python-judge-last-line)
+  (if (equal (what-line) camelsnake-python-judge-last-line)
       camelsnake-python-judge-result
     (let ((point (point))
           (result (not (search-backward "class" (line-beginning-position) t))))
